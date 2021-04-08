@@ -1,6 +1,6 @@
 module.exports = [
     {
-        context: ['/m'],
+        context: ['/api'],
         pathRewrite: {
 
         },

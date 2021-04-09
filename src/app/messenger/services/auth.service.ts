@@ -5,7 +5,7 @@ import {environment} from '../../../environments/environment';
 import {MagicLinkPayload, MagicLinkResponse} from './types/authentication.types';
 
 @Injectable({providedIn: 'root'})
-export class AuthenticationService {
+export class AuthService {
     static authUrl (pollId: string): string {
         return `/auth/magic_link/${pollId}`;
     }
@@ -19,6 +19,6 @@ export class AuthenticationService {
             scope: 'magic_link',
         };
 
-        return this.http.post<MagicLinkResponse>(AuthenticationService.authUrl(pollId), payload);
+        return this.http.post<MagicLinkResponse>(AuthService.authUrl(pollId), payload);
     }
 }

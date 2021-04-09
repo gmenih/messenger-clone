@@ -1,13 +1,21 @@
-export interface AuthenticationState {
+export interface AuthState {
     isLoading: boolean;
     authToken: string;
     refreshToken: string;
     tokenExpiresAt: Date;
+    error?: string;
 }
 
 export interface TokenReceivedProps {
     authToken: string;
     refreshToken: string;
-    expiresIn: number;
-    createdAt: number;
+    expiresAt: Date;
+}
+
+export interface StartAuthProps {
+    pollId: string;
+}
+
+export interface ErrorProps {
+    errorMessage: string;
 }

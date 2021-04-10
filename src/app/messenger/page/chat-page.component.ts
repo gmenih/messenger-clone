@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {startAuthentication} from '../store/auth/auth.effects';
+import {Observable} from 'rxjs';
+import {AuthFacade} from '../store/auth/auth.facade';
 
 @Component({
     selector: 'app-chat-page',
@@ -9,19 +8,12 @@ import {startAuthentication} from '../store/auth/auth.effects';
     styleUrls: ['./chat-page.component.scss']
 })
 export class ChatPageComponent implements OnInit {
-    constructor (
-        private readonly route: ActivatedRoute,
-        private readonly store: Store,
-    ) {}
+    public isLoading$: Observable<boolean>;
+
+    constructor (private readonly authFacade: AuthFacade) {
+        this.isLoading$ = this.authFacade.isLoading$;
+    }
 
     public ngOnInit (): void {
-        const pollId = this.route.snapshot.paramMap.get('id');
-
-        if (!pollId) {
-            console.log('off, no poll ID');
-            return;
-        }
-
-        this.store.dispatch(startAuthentication({pollId}));
     }
 }

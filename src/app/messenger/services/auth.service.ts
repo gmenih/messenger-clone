@@ -7,7 +7,7 @@ import {MagicLinkPayload, MagicLinkResponse} from './types/authentication.types'
 @Injectable({providedIn: 'root'})
 export class AuthService {
     static authUrl (pollId: string): string {
-        return `/auth/magic_link/${pollId}`;
+        return new URL(`/auth/magic_link/${pollId}`, environment.restApiBaseEndpoint).toString();
     }
 
     constructor(private readonly http: HttpClient) {}

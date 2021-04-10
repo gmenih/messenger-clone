@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {MessageKind, PollpassMessage, QuestionType} from '../../services/types/conversation.types';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss']
+    selector: 'app-message',
+    templateUrl: './message.component.html',
+    styleUrls: ['./message.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent {
+    public EnumMessageKind: typeof MessageKind = MessageKind;
+    public EnumQuestionType: typeof QuestionType = QuestionType;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+    @Input() public message!: PollpassMessage;
 }

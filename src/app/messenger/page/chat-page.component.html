@@ -1,2 +1,4 @@
 <p>chat-page works!</p>
-<h1 *ngIf="isLoading$ | async">Loading!</h1>
+
+
+<app-message *ngFor="let message of messages$ | async" [message]="message"></app-message>

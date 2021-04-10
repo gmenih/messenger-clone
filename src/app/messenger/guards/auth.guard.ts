@@ -8,19 +8,24 @@ import {AuthFacade} from '../store/auth/auth.facade';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor (private readonly authFacade: AuthFacade) {}
+    constructor(private readonly authFacade: AuthFacade) { }
 
     canActivate (route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
-            const pollId = route.params.pollId;
+        const pollId = route.params.pollId;
 
-            return this.authFacade.isAuthenticated$.pipe(
-                tap(isAuthenticated => {
-                    if (!isAuthenticated) {
-                        this.authFacade.authenticate(pollId);
-                    }
-                }),
-                skipUntil(this.authFacade.isLoading$.pipe(filter((loading) => !loading))),
-                catchError(() => of(false)),
-            );
+        return this.authFacade.isAuthenticated$.pipe(
+            tap(isAuthenticated => {
+                if (!isAuthenticated) {
+                    this.authFacade.authenticate(pollId);
+                }
+            }),
+            skipUntil(this.authFacade.isLoading$.pipe(
+                filter((loading) => !loading),
+            )),
+            catchError((e) => {
+                console.error(e);
+                return of(false);
+            }),
+        );
     }
 }

@@ -1,13 +1,19 @@
+export interface AuthStored {
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number;
+}
+
 export interface AuthState {
     isLoading: boolean;
-    authToken: string;
+    accessToken: string;
     refreshToken: string;
     tokenExpiresAt: Date;
     error?: string;
 }
 
 export interface TokenReceivedProps {
-    authToken: string;
+    accessToken: string;
     refreshToken: string;
     expiresAt: Date;
 }

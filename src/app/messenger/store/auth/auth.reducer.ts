@@ -1,35 +1,31 @@
-// Actions:
-
 import {Action, createReducer, on} from '@ngrx/store';
 import {AuthState as AuthState} from '../types/auth.state';
-import {startAuthentication, tokenFailed, tokenReceived} from './auth.effects';
-
+import {AuthActions} from './auth.effects';
 
 const initialState: AuthState = {
     isLoading: true,
-    authToken: '',
+    accessToken: '',
     refreshToken: '',
     tokenExpiresAt: new Date(0),
 };
 
-// Reducer
-const _authReducer = createReducer(
+const authReducer = createReducer(
     initialState,
-    on(startAuthentication, state => ({...state, isLoading: true})),
-    on(tokenReceived, (state, action) => ({
+    on(AuthActions.startAuth, state => ({...state, isLoading: true})),
+    on(AuthActions.setToken, (state, action) => ({
         ...state,
         isLoading: false,
-        authToken: action.authToken,
+        accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         tokenExpiresAt: action.expiresAt,
     })),
-    on(tokenFailed, (state, {errorMessage}) => ({
+    on(AuthActions.setError, (state, {errorMessage}) => ({
         ...state,
         isLoading: false,
         error: errorMessage,
     })),
 );
 
-export function authReducer (state: AuthState | undefined, action: Action): AuthState {
-    return _authReducer(state, action);
+export function authReducerFactory (state: AuthState | undefined, action: Action): AuthState {
+    return authReducer(state, action);
 }

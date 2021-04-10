@@ -1,5 +1,7 @@
-import {authReducer} from './auth/auth.reducer';
+import {authReducerFactory} from './auth/auth.reducer';
+import {conversationReducerFactory} from './conversation/conversation.reducer';
 
 export const rootReducer = () => ({
-    auth: authReducer,
+    auth: authReducerFactory,
+    conversation: conversationReducerFactory,
 });

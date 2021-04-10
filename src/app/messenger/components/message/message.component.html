@@ -1,1 +1,12 @@
-<p>message works!</p>
+<ng-container *ngIf="message.kind === EnumMessageKind.statement">
+    <div [innerHTML]="message.text_html"></div>
+</ng-container>
+<ng-container *ngIf="message.kind === EnumMessageKind.question">
+    <div [innerHTML]="message.name_html"></div>
+
+    <label *ngFor="let option of message.question_options">
+        <input [type]="message.question_type === EnumQuestionType.multiple ? 'checkbox' : 'radio'" />
+        <span [innerHTML]="option.name_html"></span>
+    </label>
+
+</ng-container>

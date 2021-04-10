@@ -7,6 +7,7 @@ import {MessageComponent} from './components/message/message.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ChatPageComponent} from './page/chat-page.component';
 import {AuthEffects} from './store/auth/auth.effects';
+import {ConversationEffects} from './store/conversation/conversation.effects';
 
 @NgModule({
     imports: [
@@ -18,7 +19,7 @@ import {AuthEffects} from './store/auth/auth.effects';
                 component: ChatPageComponent,
             },
         ]),
-        EffectsModule.forFeature([AuthEffects]),
+        EffectsModule.forFeature([AuthEffects, ConversationEffects]),
     ],
     declarations: [
         MessageComponent,

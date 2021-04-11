@@ -1,20 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Action, createAction, props} from '@ngrx/store';
+import {Action} from '@ngrx/store';
 import {of} from 'rxjs';
 import {catchError, exhaustMap, map, switchMap, tap} from 'rxjs/operators';
 import {StorageService} from '../../../core/storage.service';
 import {AuthService} from '../../services/auth.service';
 import {MagicLinkResponse} from '../../services/types/authentication.types';
-import {AuthStored, ErrorProps, StartAuthProps, TokenReceivedProps} from '../types/auth.state';
+import {AuthStored} from '../types/auth.state';
+import {AuthActions} from './auth.actions';
 import {AuthFacade} from './auth.facade';
 
-export const AuthActions = {
-    startAuth: createAction('[Auth] start', props<StartAuthProps>()),
-    refreshToken: createAction('[Auth] refresh'),
-    setToken: createAction('[Auth] success', props<TokenReceivedProps>()),
-    setError: createAction('[Auth] error', props<ErrorProps>()),
-};
 
 const AUTH_TOKEN_KEY = 'pp_auth';
 

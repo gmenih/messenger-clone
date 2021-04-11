@@ -1,16 +1,12 @@
-import {IncomingMessage, PollpassMessage} from '../../services/types/conversation.types';
+import {IncomingMessage, PollpassMessage, QuestionMessage} from '../../services/types/conversation.types';
 
 export interface ConversationState {
     messages: IncomingMessage[];
-    currentQuestion: string | null;
+    activeQuestion: QuestionMessage | null;
 }
 
 export interface SetHistoryProps {
-    messages: IncomingMessage[];
-}
-
-export interface AnswerQuestionProps {
-
+    messages: PollpassMessage[];
 }
 
 export interface AddMessageProps {
@@ -21,24 +17,11 @@ export interface InvalidMessageProps {
     message: PollpassMessage;
 }
 
-export interface AuthState {
-    isLoading: boolean;
-    authToken: string;
-    refreshToken: string;
-    tokenExpiresAt: Date;
-    error?: string;
+export interface SetActiveQuestionProps {
+    question: QuestionMessage;
 }
 
-export interface TokenReceivedProps {
-    authToken: string;
-    refreshToken: string;
-    expiresAt: Date;
-}
-
-export interface StartAuthProps {
-    pollId: string;
-}
-
-export interface ErrorProps {
-    errorMessage: string;
+export interface AnswerQuestionProps {
+    questionId: string;
+    selectedOptions: string[];
 }

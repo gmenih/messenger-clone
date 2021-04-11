@@ -70,7 +70,7 @@ export type IncomingMessage =
 
 export interface HistoryMessage extends BaseMessage {
     kind: MessageKind.history;
-    messages: IncomingMessage[];
+    messages: PollpassMessage[];
 }
 
 export type OutgoingMessage =

@@ -11,6 +11,7 @@ import {ConversationFacade} from '../store/conversation/conversation.facade';
 })
 export class ChatPageComponent implements OnInit {
     public messages$: Observable<IncomingMessage[]>;
+    public activeQuestion: IncomingMessage | null = null;
 
     constructor (
         private readonly authFacade: AuthFacade,
@@ -22,6 +23,11 @@ export class ChatPageComponent implements OnInit {
     public ngOnInit (): void {
         this.authFacade.authTokens$.subscribe((authToken) => {
             this.conversationFacade.startConversation(authToken);
+        });
+
+        this.conversationFacade.activeQuestion$.subscribe(v => {
+            console.log({v});
+            this.activeQuestion = v;
         });
     }
 }

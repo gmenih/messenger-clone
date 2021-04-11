@@ -17,4 +17,8 @@ export class ConversationService {
             }),
         );
     }
+
+    public sendMessage (message: PollpassMessage): void {
+        this.webSocket.sendMessage(message);
+    }
 }

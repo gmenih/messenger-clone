@@ -1,27 +1,30 @@
 // Actions:
 
 import {Action, createReducer, on} from '@ngrx/store';
+import {IncomingMessage, MessageKind} from '../../services/types/conversation.types';
 import {ConversationState} from '../types/conversation.state';
-import {ConversationActions} from './conversation.effects';
+import {ConversationActions} from './conversation.actions';
 
 
 const initialState: ConversationState = {
-    currentQuestion: null,
+    activeQuestion: null,
     messages: [],
 };
+
+function getCurrentQuestionId (message: IncomingMessage | null): string | null {
+    return message?.kind === MessageKind.question ? message.id : null;
+}
 
 // Reducer
 const conversationReducer = createReducer(
     initialState,
-    on(ConversationActions.setHistory, (state, action) => ({
+    on(ConversationActions.setActiveQuestion, (state, action) => ({
         ...state,
-        messages: action.messages,
-        currentQuestion: action.messages[action.messages.length - 1]?.id ?? null,
+        activeQuestion: action.question,
     })),
     on(ConversationActions.addMessage, (state, action) => ({
         ...state,
         messages: [...state.messages, action.message],
-        currentQuestion: action.message.id,
     })),
 );
 

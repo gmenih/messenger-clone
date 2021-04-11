@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {AppState} from '../types/app.state';
-import {AuthActions} from './auth.effects';
+import {AuthActions} from './auth.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthFacade {

@@ -2,3 +2,7 @@
 
 
 <app-message *ngFor="let message of messages$ | async" [message]="message"></app-message>
+
+<ng-container *ngIf="activeQuestion">
+    <pre>{{ activeQuestion | json }}</pre>
+</ng-container>

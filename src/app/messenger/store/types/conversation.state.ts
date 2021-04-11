@@ -1,7 +1,7 @@
 import {IncomingMessage, PollpassMessage} from '../../services/types/conversation.types';
 
 export interface ConversationState {
-    messages: PollpassMessage[];
+    messages: IncomingMessage[];
     currentQuestion: string | null;
 }
 
@@ -14,6 +14,10 @@ export interface AnswerQuestionProps {
 }
 
 export interface AddMessageProps {
+    message: IncomingMessage;
+}
+
+export interface InvalidMessageProps {
     message: PollpassMessage;
 }
 

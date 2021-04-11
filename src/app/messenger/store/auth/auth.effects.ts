@@ -1,4 +1,3 @@
-import {SyncAsync} from '@angular/compiler/src/util';
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action, createAction, props} from '@ngrx/store';
@@ -8,10 +7,11 @@ import {StorageService} from '../../../core/storage.service';
 import {AuthService} from '../../services/auth.service';
 import {MagicLinkResponse} from '../../services/types/authentication.types';
 import {AuthStored, ErrorProps, StartAuthProps, TokenReceivedProps} from '../types/auth.state';
+import {AuthFacade} from './auth.facade';
 
 export const AuthActions = {
-    hydrate: createAction(`[Auth] hydrate`),
     startAuth: createAction('[Auth] start', props<StartAuthProps>()),
+    refreshToken: createAction('[Auth] refresh'),
     setToken: createAction('[Auth] success', props<TokenReceivedProps>()),
     setError: createAction('[Auth] error', props<ErrorProps>()),
 };
@@ -25,7 +25,6 @@ export class AuthEffects {
         exhaustMap(action => {
             const storage = this.storageService.getItem<AuthStored>(AUTH_TOKEN_KEY);
             if (storage) {
-                console.log('got it in storagee!');
                 return of(AuthActions.setToken({
                     accessToken: storage.accessToken,
                     refreshToken: storage.refreshToken,
@@ -54,11 +53,21 @@ export class AuthEffects {
         {dispatch: false},
     );
 
+    public refreshToken$ = createEffect(() => this.actions$.pipe(
+        ofType(AuthActions.refreshToken),
+        exhaustMap(() => this.authFacade.refreshToken$.pipe(
+            switchMap(token => this.authService.refreshMagicLink(token)),
+            map(response => this.dispatchTokenReceived(response)),
+            catchError(() => of(AuthActions.setError({errorMessage: 'Failed to receive token'}))),
+        )),
+    ));
+
     constructor(
         private readonly actions$: Actions,
+        private readonly authFacade: AuthFacade,
         private readonly authService: AuthService,
         private readonly storageService: StorageService,
-    ) { }
+    ) {}
 
     private dispatchTokenReceived (response: MagicLinkResponse): Action {
         const expiresAtEpoch = (response.created_at * 1000) + (response.expires_in * 1000);

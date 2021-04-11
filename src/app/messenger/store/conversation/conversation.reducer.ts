@@ -16,7 +16,7 @@ const conversationReducer = createReducer(
     on(ConversationActions.setHistory, (state, action) => ({
         ...state,
         messages: action.messages,
-        currentQuestion: action.messages[action.messages.length - 1].id ?? null,
+        currentQuestion: action.messages[action.messages.length - 1]?.id ?? null,
     })),
     on(ConversationActions.addMessage, (state, action) => ({
         ...state,

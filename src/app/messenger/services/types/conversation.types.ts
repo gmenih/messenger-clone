@@ -7,6 +7,7 @@ export enum MessageKind {
   statement = 'Statement',
   answer = 'Answer',
   answerView = 'AnswerView',
+  error = 'Error',
 }
 
 export enum QuestionType {
@@ -52,10 +53,19 @@ export interface AnswerViewMessage extends BaseMessage {
   answers: string;
 }
 
+// this message exists only within this app, used to
+// display errors to the user
+export interface ErrorMessage extends BaseMessage {
+    kind: MessageKind.error;
+    errorName?: string;
+    errorMessage: string;
+}
+
 export type IncomingMessage =
     | AnswerViewMessage
     | QuestionMessage
-    | StatementMessage;
+    | StatementMessage
+    | ErrorMessage;
 
 
 export interface HistoryMessage extends BaseMessage {

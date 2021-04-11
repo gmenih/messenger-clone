@@ -25,3 +25,8 @@ export interface StartAuthProps {
 export interface ErrorProps {
     errorMessage: string;
 }
+
+export interface AuthToken$ {
+    authToken: string;
+    refreshToken: string;
+}

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PollpassMessage} from '../services/types/conversation.types';
+import {IncomingMessage} from '../services/types/conversation.types';
 import {AuthFacade} from '../store/auth/auth.facade';
 import {ConversationFacade} from '../store/conversation/conversation.facade';
 
@@ -10,7 +10,7 @@ import {ConversationFacade} from '../store/conversation/conversation.facade';
     styleUrls: ['./chat-page.component.scss']
 })
 export class ChatPageComponent implements OnInit {
-    public messages$: Observable<PollpassMessage[]>;
+    public messages$: Observable<IncomingMessage[]>;
 
     constructor (
         private readonly authFacade: AuthFacade,
@@ -20,7 +20,7 @@ export class ChatPageComponent implements OnInit {
     }
 
     public ngOnInit (): void {
-        this.authFacade.authToken$.subscribe((authToken) => {
+        this.authFacade.authTokens$.subscribe((authToken) => {
             this.conversationFacade.startConversation(authToken);
         });
     }

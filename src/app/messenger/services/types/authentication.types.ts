@@ -3,8 +3,11 @@ export interface MagicLinkPayload {
     client_id: string;
     client_secret: string;
     meta?: unknown;
-    grant_type?: 'refresh_token';
-    refresh_token?: string;
+}
+
+export interface RefreshTokenPayload extends MagicLinkPayload {
+    grant_type: 'refresh_token';
+    refresh_token: string;
 }
 
 

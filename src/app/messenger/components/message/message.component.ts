@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {MessageKind, PollpassMessage, QuestionType} from '../../services/types/conversation.types';
+import {IncomingMessage, MessageKind, QuestionType} from '../../services/types/conversation.types';
 
 @Component({
     selector: 'app-message',
@@ -11,5 +11,5 @@ export class MessageComponent {
     public EnumMessageKind: typeof MessageKind = MessageKind;
     public EnumQuestionType: typeof QuestionType = QuestionType;
 
-    @Input() public message!: PollpassMessage;
+    @Input() public message!: IncomingMessage;
 }

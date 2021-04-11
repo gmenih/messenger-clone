@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {PollpassMessage} from '../../services/types/conversation.types';
+import {IncomingMessage} from '../../services/types/conversation.types';
 import {AppState} from '../types/app.state';
 import {ConversationActions} from './conversation.effects';
 
 @Injectable({providedIn: 'root'})
 export class ConversationFacade {
-    public messages$: Observable<PollpassMessage[]>;
+    public messages$: Observable<IncomingMessage[]>;
 
     constructor(private readonly store: Store<AppState>) {
         const conversationStore = this.store.select(s => s.conversation);

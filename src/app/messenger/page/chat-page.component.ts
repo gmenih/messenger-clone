@@ -10,24 +10,27 @@ import {ConversationFacade} from '../store/conversation/conversation.facade';
     styleUrls: ['./chat-page.component.scss']
 })
 export class ChatPageComponent implements OnInit {
-    public messages$: Observable<IncomingMessage[]>;
-    public activeQuestion: IncomingMessage | null = null;
+    public receivedMessage: IncomingMessage[] = [];
+    public activeQuestionId?: string;
 
     constructor (
         private readonly authFacade: AuthFacade,
         private readonly conversationFacade: ConversationFacade,
-    ) {
-        this.messages$ = this.conversationFacade.messages$;
-    }
+    ) {}
 
     public ngOnInit (): void {
         this.authFacade.authTokens$.subscribe((authToken) => {
             this.conversationFacade.startConversation(authToken);
         });
 
-        this.conversationFacade.activeQuestion$.subscribe(v => {
-            console.log({v});
-            this.activeQuestion = v;
+        this.conversationFacade.activeQuestionId$.subscribe(v => {
+            this.activeQuestionId = v ?? undefined;
         });
+
+        this.conversationFacade.messages$.subscribe(v => this.receivedMessage = v);
+    }
+
+    public trackById (_: number, message: IncomingMessage): string {
+        return message.id;
     }
 }

@@ -1,0 +1,31 @@
+<ng-container *ngIf="isActive; else titleOnly">
+    <h2 [innerHTML]="question.name_html"></h2>
+
+    <form *ngIf="form"
+          [formGroup]="form"
+          (ngSubmit)="submitAnswer()">
+        <label *ngFor="let option of question.question_options;">
+            <ng-container *ngIf="!isMultipleAnswers">
+                <input type="radio"
+                       [value]="option.id"
+                       name="options"
+                       formControlName="options">
+            </ng-container>
+            <ng-container *ngIf="isMultipleAnswers">
+                <div formGroupName="options">
+                    <input type="checkbox"
+                    [formControlName]="option.id"
+                    [value]="true">
+                </div>
+            </ng-container>
+            <span [innerHTML]="option.name_html"></span>
+        </label>
+
+        <button type="submit">Answer</button>
+    </form>
+
+</ng-container>
+
+<ng-template #titleOnly>
+    <span [innerHTML]="question.name_html"></span>
+</ng-template>

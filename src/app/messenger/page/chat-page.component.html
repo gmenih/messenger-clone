@@ -1,8 +1,5 @@
-<p>chat-page works!</p>
-
-
-<app-message *ngFor="let message of messages$ | async" [message]="message"></app-message>
-
-<ng-container *ngIf="activeQuestion">
-    <pre>{{ activeQuestion | json }}</pre>
-</ng-container>
+<div class="messages">
+    <app-message *ngFor="let message of receivedMessage; trackBy: trackById"
+                 [message]="message"
+                 [activeQuestionId]="activeQuestionId"></app-message>
+</div>

@@ -12,4 +12,5 @@ export class MessageComponent {
     public EnumQuestionType: typeof QuestionType = QuestionType;
 
     @Input() public message!: IncomingMessage;
+    @Input() public activeQuestionId?: string;
 }

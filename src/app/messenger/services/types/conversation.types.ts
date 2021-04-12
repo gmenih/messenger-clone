@@ -40,10 +40,23 @@ export interface QuestionMessage extends BaseMessage {
   question_type: QuestionType;
 }
 
+export interface AnswerMeta {
+    quick: boolean;
+    direct: boolean;
+    indecisive: boolean;
+    shown_at: number;
+    answered_at: number;
+    screen_resolution_width: number;
+    screen_resolution_height: number;
+    device_pixel_ratio: number;
+    window_resolution_width: number;
+    window_resolution_height: number;
+}
+
 export interface AnswerMessage extends BaseMessage {
   kind: MessageKind.answer;
   question_id: string;
-  meta: unknown; // TODO: figure out
+  meta: AnswerMeta;
   answers: Record<string, 1 | 0>;
 }
 
@@ -64,9 +77,7 @@ export interface ErrorMessage extends BaseMessage {
 export type IncomingMessage =
     | AnswerViewMessage
     | QuestionMessage
-    | StatementMessage
-    | ErrorMessage;
-
+    | StatementMessage;
 
 export interface HistoryMessage extends BaseMessage {
     kind: MessageKind.history;

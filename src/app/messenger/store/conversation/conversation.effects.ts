@@ -2,17 +2,13 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action} from '@ngrx/store';
 import {of} from 'rxjs';
-import {catchError, exhaustMap, filter, map, tap} from 'rxjs/operators';
+import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
 import {ConversationService} from '../../services/conversation.service';
-import {AnswerMessage, IncomingMessage, MessageKind, PollpassMessage} from '../../services/types/conversation.types';
+import {AnswerMessage, MessageKind, PollpassMessage} from '../../services/types/conversation.types';
 import {AuthActions} from '../auth/auth.actions';
 import {AnswerQuestionProps} from '../types/conversation.state';
 import {ConversationActions} from './conversation.actions';
-import {ConversationFacade} from './conversation.facade';
-
-function isNonNull<T> (value: T): value is NonNullable<T> {
-    return value != null;
-}
+import {v4 as uuid} from 'uuid';
 
 @Injectable()
 export class ConversationEffects {
@@ -34,17 +30,16 @@ export class ConversationEffects {
         exhaustMap(action => action.messages.map(message => this.distributeMessage(message))),
     ));
 
-    public answerQuestion$ = createEffect(() => this.actions$.pipe(
-        ofType(ConversationActions.answerQuestion),
-        exhaustMap(action => this.conversationFacade.activeQuestion$.pipe(
-            filter(isNonNull),
-            tap(question => this.conversationService.sendMessage(this.answerQuestion(action, question)))
-        )),
-    ), {dispatch: false});
+    public answerQuestion$ = createEffect(
+        () => this.actions$.pipe(
+            ofType(ConversationActions.answerQuestion),
+            tap(action => this.conversationService.sendMessage(this.answerQuestion(action)))
+        ),
+        {dispatch: false},
+    );
 
     constructor(
         private readonly actions$: Actions,
-        private readonly conversationFacade: ConversationFacade,
         private readonly conversationService: ConversationService,
     ) { }
 
@@ -52,9 +47,8 @@ export class ConversationEffects {
         switch (message.kind) {
             case 'AnswerView':
             case 'Statement':
-                return ConversationActions.addMessage({message});
             case 'Question':
-                return ConversationActions.setActiveQuestion({question: message});
+                return ConversationActions.addMessage({message});
             case 'History':
                 return ConversationActions.setHistory({messages: message.messages});
             default:
@@ -62,25 +56,36 @@ export class ConversationEffects {
         }
     }
 
-    private answerQuestion (action: AnswerQuestionProps, question: IncomingMessage): AnswerMessage {
+    private answerQuestion (action: AnswerQuestionProps): AnswerMessage {
         const answers = action.selectedOptions.map(option => ([option, 1]));
 
         return {
             created_at: new Date().toISOString(),
-            id: '',
+            id: uuid(),
             kind: MessageKind.answer,
-            question_id: question.id,
+            question_id: action.questionId,
             answers: Object.fromEntries(answers),
-            meta: {},
+            meta: {
+                quick: false,
+                direct: false,
+                indecisive: false,
+                shown_at: Math.floor((Date.now() / 1000)),
+                answered_at: Math.floor((Date.now() / 1000)),
+                device_pixel_ratio: 1,
+                screen_resolution_height: 3440,
+                screen_resolution_width: 1440,
+                window_resolution_height: 1720,
+                window_resolution_width: 848,
+            },
         };
     }
 
     private addErrorMessage (error: string): Action {
         return ConversationActions.addMessage({
             message: {
-                kind: MessageKind.error,
+                kind: MessageKind.statement,
                 created_at: new Date().toISOString(),
-                errorMessage: error,
+                text_html: error,
                 id: '',
             },
         });

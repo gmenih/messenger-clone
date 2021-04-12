@@ -1,8 +1,9 @@
 import {IncomingMessage, PollpassMessage, QuestionMessage} from '../../services/types/conversation.types';
 
 export interface ConversationState {
+    isLoading: boolean;
     messages: IncomingMessage[];
-    activeQuestion: QuestionMessage | null;
+    activeQuestionId: string | null;
 }
 
 export interface SetHistoryProps {
@@ -18,7 +19,7 @@ export interface InvalidMessageProps {
 }
 
 export interface SetActiveQuestionProps {
-    question: QuestionMessage;
+    questionId: string;
 }
 
 export interface AnswerQuestionProps {

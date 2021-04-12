@@ -1,30 +1,30 @@
 // Actions:
 
 import {Action, createReducer, on} from '@ngrx/store';
-import {IncomingMessage, MessageKind} from '../../services/types/conversation.types';
+import {MessageKind} from '../../services/types/conversation.types';
 import {ConversationState} from '../types/conversation.state';
 import {ConversationActions} from './conversation.actions';
 
 
 const initialState: ConversationState = {
-    activeQuestion: null,
+    isLoading: false,
+    activeQuestionId: null,
     messages: [],
 };
 
-function getCurrentQuestionId (message: IncomingMessage | null): string | null {
-    return message?.kind === MessageKind.question ? message.id : null;
-}
-
-// Reducer
 const conversationReducer = createReducer(
     initialState,
-    on(ConversationActions.setActiveQuestion, (state, action) => ({
-        ...state,
-        activeQuestion: action.question,
-    })),
+    on(ConversationActions.startConversation, (state) => ({...state, isLoading: true})),
     on(ConversationActions.addMessage, (state, action) => ({
         ...state,
         messages: [...state.messages, action.message],
+        activeQuestionId: action.message.kind === MessageKind.question ? action.message.id : null,
+        isLoading: true,
+    })),
+    on(ConversationActions.setActiveQuestion, (state, action) => ({
+        ...state,
+        activeQuestionId: action.questionId,
+        isLoading: false,
     })),
 );
 

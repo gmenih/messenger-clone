@@ -5,7 +5,6 @@
           [formGroup]="form"
           (ngSubmit)="submitAnswer()">
 
-
         <mat-radio-group *ngIf="!isMultipleAnswers"
                          formControlName="options">
             <div *ngFor="let option of question.question_options;">

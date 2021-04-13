@@ -24,8 +24,8 @@ export class QuestionComponent implements OnInit {
 
     ngOnInit (): void {
         this.isMultipleAnswers = this.question.question_type === QuestionType.multiple;
-        this.form = this.buildForm();
         this.noneOfTheAboveOptionId = this.question.question_options.find(o => o.nota === true)?.id;
+        this.form = this.buildForm();
     }
 
     public submitAnswer (): void {
@@ -37,7 +37,7 @@ export class QuestionComponent implements OnInit {
 
         const options: string[] = this.isMultipleAnswers ?
             Object.keys(formValue.options).filter(key => formValue.options[key] === true) :
-            [formValue.options as string];
+            [formValue.options];
 
         this.conversationFacade.answerQuestion(this.question.question_id, options);
     }

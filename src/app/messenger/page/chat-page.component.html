@@ -4,6 +4,6 @@
                  [activeQuestionId]="activeQuestionId"></app-message>
 
     <ng-container *ngIf="isLoading$ | async">
-        <mat-spinner mode="indeterminate"></mat-spinner>
+        <app-loading-dots></app-loading-dots>
     </ng-container>
 </div>

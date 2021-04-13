@@ -9,10 +9,12 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {rootReducer} from './messenger/store/root.reducer';
+import {HomeComponent} from './page/home/home.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
@@ -23,10 +25,16 @@ import {rootReducer} from './messenger/store/root.reducer';
         }),
         EffectsModule.forRoot(),
         BrowserAnimationsModule,
-        RouterModule.forRoot([{
-            path: 'm',
-            loadChildren: () => import('./messenger/messenger.module').then(m => m.MessengerModule),
-        }]),
+        RouterModule.forRoot([
+            {
+                path: 'm',
+                loadChildren: () => import('./messenger/messenger.module').then(m => m.MessengerModule),
+            },
+            {
+                path: '**',
+                component: HomeComponent,
+            },
+        ]),
     ],
     providers: [],
     bootstrap: [AppComponent]

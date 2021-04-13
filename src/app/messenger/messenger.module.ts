@@ -16,6 +16,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {ChatPageComponent} from './page/chat-page.component';
 import {AuthEffects} from './store/auth/auth.effects';
 import {ConversationEffects} from './store/conversation/conversation.effects';
+import { LoadingDotsComponent } from './components/loading-dots/loading-dots.component';
 
 const material: NgModule['imports'] = [
     MatButtonModule,
@@ -46,6 +47,7 @@ const material: NgModule['imports'] = [
         MessageComponent,
         QuestionComponent,
         StatementComponent,
+        LoadingDotsComponent,
     ],
 })
 export class MessengerModule {}

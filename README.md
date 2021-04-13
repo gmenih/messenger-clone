@@ -1,13 +1,16 @@
-# tech details
+# messenger-clone
 
-1. auth user
-2. connect to WS
-3. receive messages
-    1. on history, fill state
-    2. on messages add message
+### Running it
 
+```
+npm i
+npm run start
+```
 
-TODO:
-* figure out where to get auth grant
-* connect to WS
-* start having conversation
+And open your browser to [http://localhost:5555](http://localhost:5555)
+
+### Testing it
+
+```
+npm run test
+```

@@ -6,6 +6,7 @@ import {AuthActions} from './auth.actions';
 
 @Injectable({providedIn: 'root'})
 export class AuthFacade {
+    public readonly isLoading$: Observable<boolean>;
     public readonly isAuthenticated$: Observable<boolean>;
     public readonly authTokens$: Observable<string>;
     public readonly refreshToken$: Observable<string>;
@@ -13,6 +14,7 @@ export class AuthFacade {
     constructor (private readonly store: Store<AppState>) {
         const authStore = this.store.select(state => state.auth);
 
+        this.isLoading$ =       authStore.pipe(select(state => state.isLoading));
         this.isAuthenticated$ = authStore.pipe(select(state => !state.isLoading && !!state.accessToken));
         this.authTokens$ =      authStore.pipe(select(state => state.accessToken));
         this.refreshToken$ =    authStore.pipe(select(state => state.refreshToken));

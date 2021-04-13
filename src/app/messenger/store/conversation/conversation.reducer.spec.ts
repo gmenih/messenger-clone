@@ -55,13 +55,13 @@ describe('ConversationReducer', () => {
             const state = conversationReducerFactory({
                 ...initialState.conversation,
                 isLoading: false,
-                activeMessageId: 'message-id',
+                activeQuestionId: 'message-id',
              },
              action,
             );
 
             expect(state.isLoading).toBeTrue();
-            expect(state.activeMessageId).toBe(null);
+            expect(state.activeQuestionId).toBe(null);
         });
 
         it('sets loading to false if message is a question', () => {
@@ -85,25 +85,25 @@ describe('ConversationReducer', () => {
             expect(state.isLoading).toBeFalse();
         });
 
-        it('sets active question if message is a quesiton', () => {
+        it('sets active question if message is a question', () => {
             const action = ConversationActions.addMessage({message: {
                 kind: MessageKind.question,
                 created_at: '',
                 id: 'message-id',
                 name_html: '',
-                question_id: '',
+                question_id: 'question-id',
                 question_options: [],
                 question_type: QuestionType.multiple,
             }});
 
             const state = conversationReducerFactory({
                 ...initialState.conversation,
-                activeMessageId: null,
+                activeQuestionId: null,
              },
              action,
             );
 
-            expect(state.activeMessageId).toBe('message-id');
+            expect(state.activeQuestionId).toBe('question-id');
         });
     });
 })

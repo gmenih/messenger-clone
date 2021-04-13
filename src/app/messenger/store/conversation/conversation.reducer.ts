@@ -5,7 +5,7 @@ import {ConversationState} from './types/conversation.state';
 
 const initialState: ConversationState = {
     isLoading: false,
-    activeMessageId: null,
+    activeQuestionId: null,
     messages: [],
 };
 
@@ -15,7 +15,7 @@ const conversationReducer = createReducer(
     on(ConversationActions.addMessage, (state, action) => ({
         ...state,
         messages: [...state.messages, action.message],
-        activeMessageId: action.message.kind === MessageKind.question ? action.message.id : null,
+        activeQuestionId: action.message.kind === MessageKind.question ? action.message.question_id : null,
         isLoading: action.message.kind !== MessageKind.question,
     })),
     on(ConversationActions.goodbye, (state) => ({

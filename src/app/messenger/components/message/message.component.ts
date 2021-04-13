@@ -8,9 +8,6 @@ import {AnswerViewMessage, DisplayableMessage, MessageKind, QuestionMessage, Que
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageComponent implements OnInit {
-    public EnumMessageKind: typeof MessageKind = MessageKind;
-    public EnumQuestionType: typeof QuestionType = QuestionType;
-
     @Input() public message!: DisplayableMessage;
     @Input() public activeQuestionId?: string;
 
@@ -19,5 +16,9 @@ export class MessageComponent implements OnInit {
     public statementMessage?: StatementMessage;
 
     public ngOnInit (): void {
+        // bit of a hack to prevent angular from crying due to bad type safety in the tempalte
+        this.questionMessage = this.message.kind === MessageKind.question ? this.message : undefined;
+        this.statementMessage = this.message.kind === MessageKind.statement ? this.message : undefined;
+        this.answerViewMessage = this.message.kind === MessageKind.answerView ? this.message : undefined;
     }
 }

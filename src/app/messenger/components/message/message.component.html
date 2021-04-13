@@ -1,11 +1,9 @@
-<ng-container [ngSwitch]="message.kind">
-    <app-statement *ngSwitchCase="EnumMessageKind.statement"
-                   [statement]="message"></app-statement>
+    <app-statement *ngIf="statementMessage"
+                   [statement]="statementMessage"></app-statement>
 
-    <app-answer-view *ngSwitchCase="EnumMessageKind.answerView"
-                     [answerView]="message"></app-answer-view>
+    <app-answer-view *ngIf="answerViewMessage"
+                     [answerView]="answerViewMessage"></app-answer-view>
 
-    <app-question *ngSwitchCase="EnumMessageKind.question"
-                  [question]="message"
-                  [isActive]="activeQuestionId === message.id"></app-question>
-</ng-container>
+    <app-question *ngIf="questionMessage"
+                  [question]="questionMessage"
+                  [isActive]="activeQuestionId === questionMessage.question_id"></app-question>

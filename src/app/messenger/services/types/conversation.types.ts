@@ -69,7 +69,7 @@ export interface AnswerViewAnswer {
     id: string;
     text_html: string;
     value: number;
-};
+}
 
 export interface AnswerViewMessage extends BaseMessage {
     kind: MessageKind.answerView;

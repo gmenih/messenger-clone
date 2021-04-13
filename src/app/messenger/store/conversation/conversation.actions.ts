@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {AddMessageProps, AnswerQuestionProps, InvalidMessageProps, SetActiveQuestionProps, SetHistoryProps} from './types/conversation.state';
+import {AddMessageProps, AnswerQuestionProps, InvalidMessageProps, SetHistoryProps} from './types/conversation.state';
 
 export const ConversationActions = {
     startConversation: createAction('[Convo] start', props<{authToken: string}>()),

@@ -10,15 +10,14 @@ import {AuthStored} from './types/auth.state';
 import {AuthActions} from './auth.actions';
 import {AuthFacade} from './auth.facade';
 
-
-const AUTH_TOKEN_KEY = 'pp_auth';
+const AUTH_TOKEN_STORAGE_KEY = 'pp_auth';
 
 @Injectable()
 export class AuthEffects {
     public loadAuthToken$ = createEffect(() => this.actions$.pipe(
         ofType(AuthActions.startAuth),
         exhaustMap(action => {
-            const storage = this.storageService.getItem<AuthStored>(AUTH_TOKEN_KEY);
+            const storage = this.storageService.getItem<AuthStored>(AUTH_TOKEN_STORAGE_KEY);
             if (storage) {
                 return of(AuthActions.setToken({
                     accessToken: storage.accessToken,
@@ -38,7 +37,7 @@ export class AuthEffects {
         () => this.actions$.pipe(
             ofType(AuthActions.setToken),
             tap(action => {
-                this.storageService.setItem<AuthStored>(AUTH_TOKEN_KEY, {
+                this.storageService.setItem<AuthStored>(AUTH_TOKEN_STORAGE_KEY, {
                     accessToken: action.accessToken,
                     refreshToken: action.refreshToken,
                     expiresAt: action.expiresAt.getTime(),
@@ -57,7 +56,7 @@ export class AuthEffects {
         )),
     ));
 
-    constructor(
+    constructor (
         private readonly actions$: Actions,
         private readonly authFacade: AuthFacade,
         private readonly authService: AuthService,

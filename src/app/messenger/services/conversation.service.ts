@@ -12,8 +12,8 @@ export class ConversationService {
     public connectWithToken (authToken: string): Observable<PollpassMessage> {
         const url = new URL('/conversation', environment.neoBaseEndpoint).toString();
         return this.webSocket.connect(url, authToken).pipe(
-            catchError(e => {
-                return throwError('fek');
+            catchError(() => {
+                return throwError(new Error('WebSocket connection failed!'));
             }),
         );
     }

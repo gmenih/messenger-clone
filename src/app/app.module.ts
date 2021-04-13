@@ -1,15 +1,14 @@
 import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from '@angular/router';
+import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {rootReducer} from './messenger/store/root.reducer';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {EffectsModule} from '@ngrx/effects';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 
 @NgModule({
     declarations: [
@@ -18,13 +17,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     imports: [
         BrowserModule,
         HttpClientModule,
-        AppRoutingModule,
         StoreModule.forRoot(rootReducer()),
         StoreDevtoolsModule.instrument({
             logOnly: environment.production,
         }),
         EffectsModule.forRoot(),
         BrowserAnimationsModule,
+        RouterModule.forRoot([{
+            path: 'm',
+            loadChildren: () => import('./messenger/messenger.module').then(m => m.MessengerModule),
+        }]),
     ],
     providers: [],
     bootstrap: [AppComponent]

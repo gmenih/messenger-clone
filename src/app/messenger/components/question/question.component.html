@@ -19,11 +19,15 @@
         <ng-container *ngIf="isMultipleAnswers"
                       formGroupName="options">
             <div *ngFor="let option of question.question_options;">
-                <mat-checkbox [formControlName]="option.id">
+                <mat-checkbox [formControlName]="option.id" (change)="handleNota(option.id)">
                     <span [innerHTML]="option.name_html"></span>
                 </mat-checkbox>
             </div>
         </ng-container>
+
+        <div *ngIf="form.invalid && form.errors?.nota" class="error-message">
+            Oops! Error: {{ form.errors?.nota }}
+        </div>
 
         <button mat-flat-button
                 color="primary"

@@ -10,7 +10,7 @@ export class AuthService {
         return new URL(url, environment.restApiBaseEndpoint).toString();
     }
 
-    constructor(private readonly http: HttpClient) {}
+    constructor (private readonly http: HttpClient) {}
 
     public authenticateMagicLink (pollId: string): Observable<MagicLinkResponse> {
         const payload: MagicLinkPayload = {

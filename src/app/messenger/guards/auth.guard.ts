@@ -8,7 +8,7 @@ import {AuthFacade} from '../store/auth/auth.facade';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(private readonly authFacade: AuthFacade) { }
+    constructor (private readonly authFacade: AuthFacade) { }
 
     public canActivate (route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
         const pollId = route.params.pollId;

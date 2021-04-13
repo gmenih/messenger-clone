@@ -1,0 +1,13 @@
+:host {
+    display: block;
+
+    .html-content {
+        max-width: 100%;
+
+        &::ng-deep {
+            * {
+                max-width: 100%;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import {DisplayableMessage, PollpassMessage} from '../../../services/types/conversation.types';
+import {AnswerMessage, DisplayableMessage, PollpassMessage} from '../../../services/types/conversation.types';
 
 export interface ConversationState {
     isLoading: boolean;
@@ -23,6 +23,5 @@ export interface SetActiveQuestionProps {
 }
 
 export interface AnswerQuestionProps {
-    questionId: string;
-    selectedOptions: string[];
+    answer: AnswerMessage;
 }

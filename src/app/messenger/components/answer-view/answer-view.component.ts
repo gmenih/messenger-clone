@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {AnswerViewMessage} from '../../../services/types/conversation.types';
+import {AnswerViewMessage} from '../../services/types/conversation.types';
 
 @Component({
   selector: 'app-answer-view',

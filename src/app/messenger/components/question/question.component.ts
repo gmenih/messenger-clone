@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
-import {QuestionMessage, QuestionType} from '../../../services/types/conversation.types';
-import {ConversationFacade} from '../../../store/conversation/conversation.facade';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors} from '@angular/forms';
+import {QuestionMessage, QuestionType} from '../../services/types/conversation.types';
+import {ConversationFacade} from '../../store/conversation/conversation.facade';
 
 @Component({
     selector: 'app-question',
@@ -11,12 +11,13 @@ import {ConversationFacade} from '../../../store/conversation/conversation.facad
 })
 export class QuestionComponent implements OnInit {
     @Input() public question!: QuestionMessage;
-    @Input() public isActive: boolean = false;
-    public isMultipleAnswers: boolean = false;
+    @Input() public isActive = false;
+    public isMultipleAnswers = false;
 
     public form?: FormGroup;
+    private noneOfTheAboveOptionId?: string;
 
-    constructor(
+    constructor (
         private readonly formBuilder: FormBuilder,
         private readonly conversationFacade: ConversationFacade,
     ) { }
@@ -24,9 +25,10 @@ export class QuestionComponent implements OnInit {
     ngOnInit (): void {
         this.isMultipleAnswers = this.question.question_type === QuestionType.multiple;
         this.form = this.buildForm();
+        this.noneOfTheAboveOptionId = this.question.question_options.find(o => o.nota === true)?.id;
     }
 
-    public submitAnswer () {
+    public submitAnswer (): void {
         const formValue = this.form?.value;
 
         if (!formValue) {
@@ -54,5 +56,32 @@ export class QuestionComponent implements OnInit {
         }
 
         return this.formBuilder.control('');
+    }
+
+    public handleNota (optionId: string): void {
+        if (
+            !this.noneOfTheAboveOptionId ||
+            !this.isMultipleAnswers ||
+            !(this.form?.controls.options instanceof FormGroup)) {
+            return;
+        }
+
+        const {options} = this.form.controls;
+        const notaValue = options.value[this.noneOfTheAboveOptionId] === true;
+        const patchValue = this.getNotaPatchValue(optionId === this.noneOfTheAboveOptionId, notaValue);
+        options.patchValue(patchValue);
+
+    }
+
+    private getNotaPatchValue (isNota: boolean, notaValue: boolean): Record<string, boolean> {
+        if (notaValue) {
+            return Object.fromEntries(
+                this.question.question_options
+                    .filter(o => o.nota === !isNota)
+                    .map(o => ([o.id, false])),
+            );
+        }
+
+        return {};
     }
 }

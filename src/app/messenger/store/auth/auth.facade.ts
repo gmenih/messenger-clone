@@ -11,7 +11,7 @@ export class AuthFacade {
     public readonly authTokens$: Observable<string>;
     public readonly refreshToken$: Observable<string>;
 
-    constructor(private readonly store: Store<AppState>) {
+    constructor (private readonly store: Store<AppState>) {
         const authStore = this.store.select(state => state.auth);
 
         this.isLoading$ =       authStore.pipe(select(state => state.isLoading));

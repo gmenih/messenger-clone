@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {DisplayableMessage, MessageKind, QuestionType} from '../../services/types/conversation.types';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {AnswerViewMessage, DisplayableMessage, MessageKind, QuestionMessage, QuestionType, StatementMessage} from '../../services/types/conversation.types';
 
 @Component({
     selector: 'app-message',
@@ -7,10 +7,17 @@ import {DisplayableMessage, MessageKind, QuestionType} from '../../services/type
     styleUrls: ['./message.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit {
     public EnumMessageKind: typeof MessageKind = MessageKind;
     public EnumQuestionType: typeof QuestionType = QuestionType;
 
     @Input() public message!: DisplayableMessage;
     @Input() public activeQuestionId?: string;
+
+    public questionMessage?: QuestionMessage;
+    public answerViewMessage?: AnswerViewMessage;
+    public statementMessage?: StatementMessage;
+
+    public ngOnInit (): void {
+    }
 }

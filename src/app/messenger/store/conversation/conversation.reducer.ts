@@ -1,10 +1,7 @@
-// Actions:
-
 import {Action, createReducer, on} from '@ngrx/store';
 import {MessageKind} from '../../services/types/conversation.types';
 import {ConversationActions} from './conversation.actions';
 import {ConversationState} from './types/conversation.state';
-
 
 const initialState: ConversationState = {
     isLoading: false,

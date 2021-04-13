@@ -1,16 +1,19 @@
 .bubble {
     display: block;
-    padding: 10px;
-    background: #ccc;
-    border-radius: 12px;
-    margin: 15px 0;
+    padding: 1rem 2rem;
+    background: #f2f5fa;
+    margin: 1.5rem 0;
 
     &--left {
         margin-right: 100px;
+        border-radius: .125rem 1.25rem 1.25rem 1.25rem;
     }
 
     &--right {
         margin-left: 100px;
+        font-weight: 500;
         text-align: right;
+        color: #7256fc;
+        border-radius: 1.25rem 1.25rem .125rem 1.25rem;
     }
 }

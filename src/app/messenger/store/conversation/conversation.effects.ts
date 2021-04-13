@@ -3,12 +3,10 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action} from '@ngrx/store';
 import {of} from 'rxjs';
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
-import {v4 as uuid} from 'uuid';
 import {ConversationService} from '../../services/conversation.service';
-import {AnswerMessage, MessageKind, PollpassMessage} from '../../services/types/conversation.types';
+import {MessageKind, PollpassMessage} from '../../services/types/conversation.types';
 import {AuthActions} from '../auth/auth.actions';
 import {ConversationActions} from './conversation.actions';
-import {AnswerQuestionProps} from './types/conversation.state';
 
 @Injectable()
 export class ConversationEffects {
@@ -33,7 +31,7 @@ export class ConversationEffects {
     public answerQuestion$ = createEffect(
         () => this.actions$.pipe(
             ofType(ConversationActions.answerQuestion),
-            tap(action => this.conversationService.sendMessage(this.answerQuestion(action)))
+            tap(action => this.conversationService.sendMessage(action.answer))
         ),
         {dispatch: false},
     );
@@ -45,10 +43,10 @@ export class ConversationEffects {
         ),
         {dispatch: false},
     );
-    constructor(
+    constructor (
         private readonly actions$: Actions,
         private readonly conversationService: ConversationService,
-    ) { }
+    ) {}
 
     private distributeMessage (message: PollpassMessage): Action {
         switch (message.kind) {
@@ -63,30 +61,6 @@ export class ConversationEffects {
             default:
                 return ConversationActions.invalidMessage({message});
         }
-    }
-
-    private answerQuestion (action: AnswerQuestionProps): AnswerMessage {
-        const answers = action.selectedOptions.map(option => ([option, 1]));
-
-        return {
-            created_at: new Date().toISOString(),
-            id: uuid(),
-            kind: MessageKind.answer,
-            question_id: action.questionId,
-            answers: Object.fromEntries(answers),
-            meta: {
-                quick: false,
-                direct: false,
-                indecisive: false,
-                shown_at: Math.floor((Date.now() / 1000)),
-                answered_at: Math.floor((Date.now() / 1000)),
-                device_pixel_ratio: 1,
-                screen_resolution_height: 3440,
-                screen_resolution_width: 1440,
-                window_resolution_height: 1720,
-                window_resolution_width: 848,
-            },
-        };
     }
 
     private addErrorMessage (error: string): Action {

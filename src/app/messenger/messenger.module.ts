@@ -1,16 +1,28 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatRadioModule} from '@angular/material/radio';
 import {RouterModule} from '@angular/router';
 import {EffectsModule} from '@ngrx/effects';
+import {BubbleComponent} from './components/bubble/bubble.component';
+import {AnswerViewComponent} from './components/message/answer-view/answer-view.component';
 import {MessageComponent} from './components/message/message.component';
+import {QuestionComponent} from './components/message/question/question.component';
+import {StatementComponent} from './components/message/statement/statement.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ChatPageComponent} from './page/chat-page.component';
 import {AuthEffects} from './store/auth/auth.effects';
 import {ConversationEffects} from './store/conversation/conversation.effects';
-import { BubbleComponent } from './components/bubble/bubble.component';
-import { StatementComponent } from './components/message/statement/statement.component';
-import { QuestionComponent } from './components/message/question/question.component';
+
+const material: NgModule['imports'] = [
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
+];
 
 @NgModule({
     imports: [
@@ -25,13 +37,16 @@ import { QuestionComponent } from './components/message/question/question.compon
             },
         ]),
         EffectsModule.forFeature([AuthEffects, ConversationEffects]),
+
+        ...material,
     ],
     declarations: [
-        MessageComponent,
-        ChatPageComponent,
+        AnswerViewComponent,
         BubbleComponent,
-        StatementComponent,
+        ChatPageComponent,
+        MessageComponent,
         QuestionComponent,
+        StatementComponent,
     ],
 })
 export class MessengerModule {}

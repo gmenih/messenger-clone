@@ -3,12 +3,12 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Action} from '@ngrx/store';
 import {of} from 'rxjs';
 import {catchError, exhaustMap, map, tap} from 'rxjs/operators';
+import {v4 as uuid} from 'uuid';
 import {ConversationService} from '../../services/conversation.service';
 import {AnswerMessage, MessageKind, PollpassMessage} from '../../services/types/conversation.types';
 import {AuthActions} from '../auth/auth.actions';
-import {AnswerQuestionProps} from '../types/conversation.state';
 import {ConversationActions} from './conversation.actions';
-import {v4 as uuid} from 'uuid';
+import {AnswerQuestionProps} from './types/conversation.state';
 
 @Injectable()
 export class ConversationEffects {
@@ -38,6 +38,13 @@ export class ConversationEffects {
         {dispatch: false},
     );
 
+    public closeConnection$ = createEffect(
+        () => this.actions$.pipe(
+            ofType(ConversationActions.goodbye),
+            tap(() => this.conversationService.close())
+        ),
+        {dispatch: false},
+    );
     constructor(
         private readonly actions$: Actions,
         private readonly conversationService: ConversationService,
@@ -45,12 +52,14 @@ export class ConversationEffects {
 
     private distributeMessage (message: PollpassMessage): Action {
         switch (message.kind) {
-            case 'AnswerView':
-            case 'Statement':
-            case 'Question':
+            case MessageKind.answerView:
+            case MessageKind.statement:
+            case MessageKind.question:
                 return ConversationActions.addMessage({message});
-            case 'History':
+            case MessageKind.history:
                 return ConversationActions.setHistory({messages: message.messages});
+            case MessageKind.goodbye:
+                return ConversationActions.goodbye();
             default:
                 return ConversationActions.invalidMessage({message});
         }

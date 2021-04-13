@@ -2,4 +2,8 @@
     <app-message *ngFor="let message of receivedMessage; trackBy: trackById"
                  [message]="message"
                  [activeQuestionId]="activeQuestionId"></app-message>
+
+    <ng-container *ngIf="isLoading$ | async">
+        <mat-spinner mode="indeterminate"></mat-spinner>
+    </ng-container>
 </div>

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {StatementMessage} from '../../../services/types/conversation.types';
+import {AnswerViewMessage, StatementMessage} from '../../../services/types/conversation.types';
 
 @Component({
     selector: 'app-statement',

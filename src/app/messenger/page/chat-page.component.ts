@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IncomingMessage} from '../services/types/conversation.types';
+import {DisplayableMessage} from '../services/types/conversation.types';
 import {AuthFacade} from '../store/auth/auth.facade';
 import {ConversationFacade} from '../store/conversation/conversation.facade';
 
@@ -10,13 +10,16 @@ import {ConversationFacade} from '../store/conversation/conversation.facade';
     styleUrls: ['./chat-page.component.scss']
 })
 export class ChatPageComponent implements OnInit {
-    public receivedMessage: IncomingMessage[] = [];
+    public receivedMessage: DisplayableMessage[] = [];
     public activeQuestionId?: string;
+    public isLoading$: Observable<boolean>;
 
     constructor (
         private readonly authFacade: AuthFacade,
         private readonly conversationFacade: ConversationFacade,
-    ) {}
+    ) {
+        this.isLoading$ = this.conversationFacade.isLoading$;
+    }
 
     public ngOnInit (): void {
         this.authFacade.authTokens$.subscribe((authToken) => {
@@ -30,7 +33,7 @@ export class ChatPageComponent implements OnInit {
         this.conversationFacade.messages$.subscribe(v => this.receivedMessage = v);
     }
 
-    public trackById (_: number, message: IncomingMessage): string {
+    public trackById (_: number, message: DisplayableMessage): string {
         return message.id;
     }
 }

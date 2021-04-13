@@ -1,0 +1,16 @@
+.bubble {
+    display: block;
+    padding: 10px;
+    background: #ccc;
+    border-radius: 12px;
+    margin: 15px 0;
+
+    &--left {
+        margin-right: 100px;
+    }
+
+    &--right {
+        margin-left: 100px;
+        text-align: right;
+    }
+}

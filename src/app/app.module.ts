@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {rootReducer} from './messenger/store/root.reducer';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {EffectsModule} from '@ngrx/effects';
             logOnly: environment.production,
         }),
         EffectsModule.forRoot(),
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

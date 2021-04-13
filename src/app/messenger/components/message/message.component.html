@@ -1,9 +1,11 @@
-<app-bubble>
-    <ng-container [ngSwitch]="message.kind">
-        <app-statement *ngSwitchCase="EnumMessageKind.statement"
-                       [statement]="message"></app-statement>
-        <app-question *ngSwitchCase="EnumMessageKind.question"
-                      [question]="message"
-                      [isActive]="activeQuestionId === message.id"></app-question>
-    </ng-container>
-</app-bubble>
+<ng-container [ngSwitch]="message.kind">
+    <app-statement *ngSwitchCase="EnumMessageKind.statement"
+                   [statement]="message"></app-statement>
+
+    <app-answer-view *ngSwitchCase="EnumMessageKind.answerView"
+                     [answerView]="message"></app-answer-view>
+
+    <app-question *ngSwitchCase="EnumMessageKind.question"
+                  [question]="message"
+                  [isActive]="activeQuestionId === message.id"></app-question>
+</ng-container>

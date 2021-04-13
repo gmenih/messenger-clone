@@ -6,7 +6,7 @@ import {catchError, exhaustMap, map, switchMap, tap} from 'rxjs/operators';
 import {StorageService} from '../../../core/storage.service';
 import {AuthService} from '../../services/auth.service';
 import {MagicLinkResponse} from '../../services/types/authentication.types';
-import {AuthStored} from '../types/auth.state';
+import {AuthStored} from './types/auth.state';
 import {AuthActions} from './auth.actions';
 import {AuthFacade} from './auth.facade';
 

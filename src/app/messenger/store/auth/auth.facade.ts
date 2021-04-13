@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {AppState} from '../types/app.state';
+import {AppState} from '../root.reducer';
 import {AuthActions} from './auth.actions';
 
 @Injectable({providedIn: 'root'})

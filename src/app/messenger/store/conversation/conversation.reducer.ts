@@ -2,8 +2,8 @@
 
 import {Action, createReducer, on} from '@ngrx/store';
 import {MessageKind} from '../../services/types/conversation.types';
-import {ConversationState} from '../types/conversation.state';
 import {ConversationActions} from './conversation.actions';
+import {ConversationState} from './types/conversation.state';
 
 
 const initialState: ConversationState = {
@@ -19,11 +19,10 @@ const conversationReducer = createReducer(
         ...state,
         messages: [...state.messages, action.message],
         activeQuestionId: action.message.kind === MessageKind.question ? action.message.id : null,
-        isLoading: true,
+        isLoading: action.message.kind !== MessageKind.question,
     })),
-    on(ConversationActions.setActiveQuestion, (state, action) => ({
+    on(ConversationActions.goodbye, (state) => ({
         ...state,
-        activeQuestionId: action.questionId,
         isLoading: false,
     })),
 );

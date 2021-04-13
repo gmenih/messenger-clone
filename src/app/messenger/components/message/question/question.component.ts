@@ -1,12 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {QuestionMessage, QuestionType} from '../../../services/types/conversation.types';
 import {ConversationFacade} from '../../../store/conversation/conversation.facade';
 
 @Component({
     selector: 'app-question',
     templateUrl: './question.component.html',
-    styleUrls: ['./question.component.scss']
+    styleUrls: ['./question.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionComponent implements OnInit {
     @Input() public question!: QuestionMessage;
@@ -27,7 +28,7 @@ export class QuestionComponent implements OnInit {
 
     public submitAnswer () {
         const formValue = this.form?.value;
-        console.log(formValue);
+
         if (!formValue) {
             return;
         }
@@ -35,8 +36,6 @@ export class QuestionComponent implements OnInit {
         const options: string[] = this.isMultipleAnswers ?
             Object.keys(formValue.options).filter(key => formValue.options[key] === true) :
             [formValue.options as string];
-
-        console.log(options);
 
         this.conversationFacade.answerQuestion(this.question.question_id, options);
     }

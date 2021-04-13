@@ -1,43 +1,48 @@
 // TODO: Delete this file, just initial exploration of messages
 
 export enum MessageKind {
-  heartBeat = 'Heartbeat',
-  history = 'History',
-  question = 'Question',
-  statement = 'Statement',
-  answer = 'Answer',
-  answerView = 'AnswerView',
-  error = 'Error',
+    heartBeat = 'Heartbeat',
+    history = 'History',
+    question = 'Question',
+    statement = 'Statement',
+    answer = 'Answer',
+    answerView = 'AnswerView',
+    goodbye = 'GoodBye',
+    error = 'Error',
 }
 
 export enum QuestionType {
-  radio = 'RadioQuestion',
-  multiple = 'MultipleQuestion',
+    radio = 'RadioQuestion',
+    multiple = 'MultipleQuestion',
 }
 
 export interface QuestionOption {
     id: string;
     name_html: string;
     nota: boolean; // none of the above
-  }
+}
 
 export interface BaseMessage {
-  id: string;
-  created_at: string;
-  kind: MessageKind;
+    id: string;
+    created_at: string;
+    kind: MessageKind;
+}
+
+export interface GoodbyeMessage extends BaseMessage {
+    kind: MessageKind.goodbye;
 }
 
 export interface StatementMessage extends BaseMessage {
-  kind: MessageKind.statement;
-  text_html: string;
+    kind: MessageKind.statement;
+    text_html: string;
 }
 
 export interface QuestionMessage extends BaseMessage {
-  kind: MessageKind.question;
-  name_html: string;
-  question_id: string;
-  question_options: QuestionOption[];
-  question_type: QuestionType;
+    kind: MessageKind.question;
+    name_html: string;
+    question_id: string;
+    question_options: QuestionOption[];
+    question_type: QuestionType;
 }
 
 export interface AnswerMeta {
@@ -54,16 +59,22 @@ export interface AnswerMeta {
 }
 
 export interface AnswerMessage extends BaseMessage {
-  kind: MessageKind.answer;
-  question_id: string;
-  meta: AnswerMeta;
-  answers: Record<string, 1 | 0>;
+    kind: MessageKind.answer;
+    question_id: string;
+    meta: AnswerMeta;
+    answers: Record<string, 1 | 0>;
 }
 
+export interface AnswerViewAnswer {
+    id: string;
+    text_html: string;
+    value: number;
+};
+
 export interface AnswerViewMessage extends BaseMessage {
-  kind: MessageKind.answerView;
-  question_id: string;
-  answers: string;
+    kind: MessageKind.answerView;
+    question_id: string;
+    answers: AnswerViewAnswer[];
 }
 
 // this message exists only within this app, used to
@@ -74,7 +85,7 @@ export interface ErrorMessage extends BaseMessage {
     errorMessage: string;
 }
 
-export type IncomingMessage =
+export type DisplayableMessage =
     | AnswerViewMessage
     | QuestionMessage
     | StatementMessage;
@@ -92,4 +103,5 @@ export type PollpassMessage =
     | QuestionMessage
     | AnswerMessage
     | AnswerViewMessage
-    | HistoryMessage;
+    | HistoryMessage
+    | GoodbyeMessage;

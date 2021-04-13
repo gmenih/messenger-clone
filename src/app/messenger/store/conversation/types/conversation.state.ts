@@ -3,7 +3,7 @@ import {AnswerMessage, DisplayableMessage, PollpassMessage} from '../../../servi
 export interface ConversationState {
     isLoading: boolean;
     messages: DisplayableMessage[];
-    activeQuestionId: string | null;
+    activeMessageId: string | null;
 }
 
 export interface SetHistoryProps {

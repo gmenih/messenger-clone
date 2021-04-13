@@ -16,7 +16,7 @@ export class ConversationFacade {
         const conversationStore = this.store.select(s => s.conversation);
 
         this.messages$ =         conversationStore.pipe(select(state => state.messages));
-        this.activeQuestionId$ = conversationStore.pipe(select(state => state.activeQuestionId));
+        this.activeQuestionId$ = conversationStore.pipe(select(state => state.activeMessageId));
         this.isLoading$ =        conversationStore.pipe(select(state => state.isLoading));
     }
 
